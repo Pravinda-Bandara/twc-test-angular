@@ -7,11 +7,14 @@ import { AddContactComponent } from './view/add-contact/add-contact.component';
 import { ContactListComponent } from './view/contact-list/contact-list.component';
 import { WelcomeComponent } from './view/welcome/welcome.component';
 import {RouterModule, Routes} from "@angular/router";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MainComponent } from './view/main/main.component';
 import {authGuard} from "./guard/auth.guard";
-
-
+import {StoreService} from "./service/store.service";
+import {HttpClientModule} from "@angular/common/http";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LogoComponent } from './component/logo.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -64,14 +67,18 @@ const routes: Routes = [
     AddContactComponent,
     ContactListComponent,
     WelcomeComponent,
-    MainComponent
+    MainComponent,
+    LogoComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [StoreService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
