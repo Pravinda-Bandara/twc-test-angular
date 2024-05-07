@@ -15,6 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LogoComponent } from './component/logo.component';
+import { DeletePopUpComponent } from './component/delete-pop-up.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -69,6 +70,7 @@ const routes: Routes = [
     WelcomeComponent,
     MainComponent,
     LogoComponent,
+    DeletePopUpComponent,
   ],
   imports: [
     BrowserModule,
