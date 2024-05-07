@@ -48,7 +48,7 @@ import { take } from "rxjs";
               </form>
 
               <div>
-                  <button class="underline text-white text-lg" type="button" (click)="navigateToLogin()">
+                  <button class="underline text-white text-lg w-72 text-left" type="button" (click)="navigateToLogin()">
                       &lt; Back To Login
                   </button>
               </div>

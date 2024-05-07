@@ -24,10 +24,10 @@ import { take } from "rxjs";
 
                   </div>
                   <div>
-                      <input type="text"
+                      <input type="password"
                              placeholder="Enter password"
                              [(ngModel)]="password"
-                             name="userName" class="custom-input">
+                             name="userPassword" class="custom-input">
                   </div>
                   <button (click)="onLogin()" class="custom-button w-1/4">Login</button>
                   <span class="text-white mx-5"> or </span>

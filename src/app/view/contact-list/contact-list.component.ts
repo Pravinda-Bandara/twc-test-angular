@@ -36,19 +36,19 @@ import {ContactValidationUtil} from "../../util/contactValidationUtil";
                               </div>
                           </td>
                           <ng-container *ngIf="editRow === contact._id; else contactDetails">
-                              <td><input type="text" [(ngModel)]="nameEdit"></td>
-                              <td><input type="text" [(ngModel)]="genderEdit"></td>
-                              <td><input type="text" [(ngModel)]="emailEdit"></td>
-                              <td><input type="text" [(ngModel)]="numberEdit"></td>
+                              <td><input type="text" [(ngModel)]="nameEdit" class="bg-blue-100 nameInput"></td>
+                              <td><input type="text" [(ngModel)]="genderEdit " class="bg-blue-100 genderInput"></td>
+                              <td><input type="text" [(ngModel)]="emailEdit" class="bg-blue-100 emailInput"></td>
+                              <td><input type="text" [(ngModel)]="numberEdit" class="bg-blue-100 numberInput"></td>
                               <td>
-                                  <button type="button" (click)="handleSave(contact)">Save</button>
+                                  <button type="button" (click)="handleSave(contact)" class="w-max px-3 m-0 custom-button">Save</button>
                               </td>
                           </ng-container>
                           <ng-template #contactDetails>
-                              <td><input type="text" [value]="contact.name" [disabled]="true"></td>
-                              <td><input type="text" [value]="contact.gender" [disabled]="true"></td>
-                              <td><input type="text" [value]="contact.email" [disabled]="true"></td>
-                              <td><input type="text" [value]="contact.number" [disabled]="true"></td>
+                              <td><input type="text" [value]="contact.name" [disabled]="true"  class="nameInput"></td>
+                              <td><input type="text" [value]="contact.gender" [disabled]="true"  class="genderInput"></td>
+                              <td><input type="text" [value]="contact.email" [disabled]="true"  class="emailInput"></td>
+                              <td><input type="text" [value]="contact.number" [disabled]="true"  class="numberInput"></td>
                               <td>
             <span role="img" aria-label="Edit" class="cursor-pointer m-0.5" (click)="handleEdit(contact)">
                 <i class="bi bi-pen-fill text-customBlue hover:text-green-500 mr-2"></i>
