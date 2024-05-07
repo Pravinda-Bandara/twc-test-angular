@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContactResponse } from "../../types/contact-types";
 import { ContactService } from "../../service/contact.service";
 import { StoreService } from "../../service/store.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contact-list',
@@ -63,7 +64,11 @@ import { StoreService } from "../../service/store.service";
 export class ContactListComponent implements OnInit {
   contacts: ContactResponse[] = [];
 
-  constructor(private contactService: ContactService, private storeService: StoreService) {}
+  constructor(
+    private contactService: ContactService,
+    private storeService: StoreService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadContacts();
@@ -85,17 +90,19 @@ export class ContactListComponent implements OnInit {
 
   handleDelete(contact: ContactResponse): void {
     this.contactService.deleteContact(contact._id).subscribe(() => {
-      console.log(contact)
-      console.log("asssdasdasdasdadasdad")
       this.loadContacts();
     });
   }
 
   handleLogOut(): void {
-    // Implement logout logic
+    this.storeService.UserSignOut();
+    localStorage.removeItem('userInfo');
+    this.router.navigate(['/login']);
+
   }
 
   navigateToAddContact(): void {
-    // Implement navigation to add contact page
+    // Navigate to the add contact page
+    this.router.navigate(['app/addcontact']);
   }
 }
