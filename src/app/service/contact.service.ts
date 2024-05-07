@@ -25,7 +25,7 @@ export class ContactService {
   }
 
   updateContact(contact: ContactResponse): Observable<ContactResponse> {
-    return this.http.patch<ContactResponse>(`${this.baseUrl}/${contact._id}`, contact);
+    return this.http.patch<ContactResponse>(`${this.baseUrl}${contact._id}`, contact);
   }
 }
 

@@ -8,7 +8,7 @@ export interface ContactRequest {
   number: string;
   name: string;
   email: string;
-  gender: Gender;
+  gender: Gender | string;
   user: string;
 }
 
@@ -17,5 +17,5 @@ export interface ContactResponse {
   number: string;
   name: string;
   email: string;
-  gender: Gender;
+  gender: Gender | string;
 }

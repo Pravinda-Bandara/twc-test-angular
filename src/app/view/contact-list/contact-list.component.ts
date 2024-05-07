@@ -3,6 +3,9 @@ import { ContactResponse } from "../../types/contact-types";
 import { ContactService } from "../../service/contact.service";
 import { StoreService } from "../../service/store.service";
 import { Router } from '@angular/router';
+import {UserValidationUtil} from "../../util/userValidationUtil";
+import {ContactValidationUtil} from "../../util/contactValidationUtil";
+
 
 @Component({
   selector: 'app-contact-list',
@@ -32,19 +35,31 @@ import { Router } from '@angular/router';
                                   <img class="rounded-full h-12 w-12 my-1" [src]="getProfilePicture(contact.gender)" alt="Profile">
                               </div>
                           </td>
-                          <td>{{ contact.name }}</td>
-                          <td>{{ contact.gender }}</td>
-                          <td>{{ contact.email }}</td>
-                          <td>{{ contact.number }}</td>
-                          <td>
-                  <span role="img" aria-label="Edit" class="cursor-pointer m-0.5" (click)="handleEdit(contact)">
-                    <i class="bi bi-pen-fill text-customBlue hover:text-green-500 mr-2"></i>
-                  </span>
-                              <span role="img" aria-label="Delete" class="cursor-pointer m-0.5" (click)="handleDelete(contact)">
-                    <i class="bi bi-trash text-customBlue hover:text-red-500"></i>
-                  </span>
-                          </td>
+                          <ng-container *ngIf="editRow === contact._id; else contactDetails">
+                              <td><input type="text" [(ngModel)]="nameEdit"></td>
+                              <td><input type="text" [(ngModel)]="genderEdit"></td>
+                              <td><input type="text" [(ngModel)]="emailEdit"></td>
+                              <td><input type="text" [(ngModel)]="numberEdit"></td>
+                              <td>
+                                  <button type="button" (click)="handleSave(contact)">Save</button>
+                              </td>
+                          </ng-container>
+                          <ng-template #contactDetails>
+                              <td><input type="text" [value]="contact.name" [disabled]="true"></td>
+                              <td><input type="text" [value]="contact.gender" [disabled]="true"></td>
+                              <td><input type="text" [value]="contact.email" [disabled]="true"></td>
+                              <td><input type="text" [value]="contact.number" [disabled]="true"></td>
+                              <td>
+            <span role="img" aria-label="Edit" class="cursor-pointer m-0.5" (click)="handleEdit(contact)">
+                <i class="bi bi-pen-fill text-customBlue hover:text-green-500 mr-2"></i>
+            </span>
+                                  <span role="img" aria-label="Delete" class="cursor-pointer m-0.5" (click)="handleDelete(contact)">
+                <i class="bi bi-trash text-customBlue hover:text-red-500"></i>
+            </span>
+                              </td>
+                          </ng-template>
                       </tr>
+
                       </tbody>
                   </table>
               </div>
@@ -58,16 +73,26 @@ import { Router } from '@angular/router';
       </div>
   `,
   styles: `
-    /* Add your custom styles here */
+     input[type="text"] {
+        text-align: center;
+    }
   `
 })
 export class ContactListComponent implements OnInit {
+  editRow: any;
   contacts: ContactResponse[] = [];
+  userInfo = this.storeService.getUserInfo();
+
+  nameEdit: string = '';
+  emailEdit: string = '';
+  numberEdit: string = '';
+  genderEdit: string = '';
 
   constructor(
     private contactService: ContactService,
     private storeService: StoreService,
-    private router: Router
+    private router: Router,
+    private contactValidationUtil: ContactValidationUtil // Inject ContactValidationUtil service
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +110,33 @@ export class ContactListComponent implements OnInit {
   }
 
   handleEdit(contact: ContactResponse): void {
-    // Implement edit logic
+    this.editRow = contact._id;
+    this.nameEdit = contact.name;
+    this.genderEdit = contact.gender;
+    this.numberEdit = contact.number;
+    this.emailEdit = contact.email;
+  }
+
+  handleSave(contact: ContactResponse): void {
+    const validationError = this.contactValidationUtil.validate(this.nameEdit, this.numberEdit, this.emailEdit, this.genderEdit);
+    if (validationError) {
+      return; // Return if validation fails
+    }
+
+    const updatedContact: ContactResponse = {
+      _id: contact._id,
+      name: this.nameEdit,
+      gender: this.genderEdit,
+      email: this.emailEdit,
+      number: this.numberEdit
+    };
+
+    this.contactService.updateContact(updatedContact).subscribe(() => {
+      // Reload contacts after successful update
+      this.loadContacts();
+      // Reset editRow to null to exit editing mode
+      this.editRow = null;
+    });
   }
 
   handleDelete(contact: ContactResponse): void {
@@ -98,7 +149,6 @@ export class ContactListComponent implements OnInit {
     this.storeService.UserSignOut();
     localStorage.removeItem('userInfo');
     this.router.navigate(['/login']);
-
   }
 
   navigateToAddContact(): void {
