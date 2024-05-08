@@ -11,7 +11,7 @@ import { take } from "rxjs";
   template: `
       <div class="flex justify-evenly items-center h-screen bg-fixed-cover-2">
           <div class="p-10">
-              <h1 class="text-9xl font-bold text-white mb-4">Hi there,</h1>
+              <h1 class="text-6xl font-bold text-white mb-4">Hi there,</h1>
               <p class="text-white text-2xl mb-10">
                   Welcome to our <br /> contacts portal
               </p>

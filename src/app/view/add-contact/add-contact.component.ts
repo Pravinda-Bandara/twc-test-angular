@@ -14,7 +14,7 @@ import {Gender} from "../../types/contact-types";
 
               <app-logo [textColor]="'text-white'" [imageSize]="'w-10'" [textSize]="'text-3xl'"></app-logo>
 
-              <h1 class="text-4xl text-white font-bold py-10">Add Your New Content Here</h1>
+              <h1 class="text-2xl text-white font-bold py-10">Add Your New Content Here</h1>
 
               <form (submit)="handleAddContent()" class="grid grid-cols-2 gap-4 items-center">
                   <!-- Input fields for full name, email, phone number -->
