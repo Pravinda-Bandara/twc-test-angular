@@ -10,35 +10,39 @@ import {Gender} from "../../types/contact-types";
   selector: 'app-add-contact',
   template: `
       <div class="flex justify-evenly items-center h-screen flex-col bg-fixed-cover p-20">
-          <app-logo [textColor]="'text-white'" [imageSize]="'w-10'" [textSize]="'text-3xl'"></app-logo>
+          <div>
 
-          <h1 class="text-4xl text-white font-bold py-10">New Content</h1>
+              <app-logo [textColor]="'text-white'" [imageSize]="'w-10'" [textSize]="'text-3xl'"></app-logo>
 
-          <form (submit)="handleAddContent()" class="grid grid-cols-2 gap-4 items-center">
-              <!-- Input fields for full name, email, phone number -->
-              <div>
-                  <input type="text" [(ngModel)]="fullName" name="fullName" placeholder="full name" class="rounded-3xl h-10 py-6 px-8 my-2 mr-5 text-customBlue w-11/12 placeholder-customBlue">
-              </div>
-              <div>
-                  <input type="text" [(ngModel)]="email" name="email" placeholder="e-mail" class="rounded-3xl h-10 py-6 px-8 my-2 text-customBlue w-11/12 placeholder-customBlue">
-              </div>
-              <div>
-                  <input type="text" [(ngModel)]="phoneNumber" name="phoneNumber" placeholder="phone number" class="rounded-3xl h-10 py-6 px-8 my-2 mr-5 text-customBlue w-11/12 placeholder-customBlue">
-              </div>
-              <div class="flex px-4">
-                  <label class="text-white mr-10">Gender:</label>
+              <h1 class="text-4xl text-white font-bold py-10">Add Your New Content Here</h1>
+
+              <form (submit)="handleAddContent()" class="grid grid-cols-2 gap-4 items-center">
+                  <!-- Input fields for full name, email, phone number -->
                   <div>
-                      <input type="radio" id="male" name="gender" value="male" [(ngModel)]="gender" required class="w-3">
-                      <label for="male" class="text-white px-1 pr-14">Male</label>
+                      <input type="text" [(ngModel)]="fullName" name="fullName" placeholder="full name" class="rounded-3xl h-10 py-6 px-8 my-2 mr-5 text-customBlue w-11/12 placeholder-customBlue">
                   </div>
                   <div>
-                      <input type="radio" id="female" name="gender" value="female" [(ngModel)]="gender" required class="w-3">
-                      <label for="female" class="text-white px-1">Female</label>
+                      <input type="text" [(ngModel)]="email" name="email" placeholder="e-mail" class="rounded-3xl h-10 py-6 px-8 my-2 text-customBlue w-11/12 placeholder-customBlue">
                   </div>
-              </div>
-              <button type="submit" class="custom-button w-3/5">Add Contact</button>
-          </form>
+                  <div>
+                      <input type="text" [(ngModel)]="phoneNumber" name="phoneNumber" placeholder="phone number" class="rounded-3xl h-10 py-6 px-8 my-2 mr-5 text-customBlue w-11/12 placeholder-customBlue">
+                  </div>
+                  <div class="flex px-4">
+                      <label class="text-white mr-10">Gender:</label>
+                      <div>
+                          <input type="radio" id="male" name="gender" value="male" [(ngModel)]="gender" required class="w-3">
+                          <label for="male" class="text-white px-1 pr-14">Male</label>
+                      </div>
+                      <div>
+                          <input type="radio" id="female" name="gender" value="female" [(ngModel)]="gender" required class="w-3">
+                          <label for="female" class="text-white px-1">Female</label>
+                      </div>
+                  </div>
+                  <button type="submit" class="custom-button w-3/5">Add Contact</button>
+              </form>
 
+
+          </div>
           <div class="self-end">
               <div class="float-end flex flex-row-reverse">
                   <button class="underline text-white mx-2 text-xl" type="button" (click)="handleLogOut()">LogOut</button>
@@ -46,7 +50,7 @@ import {Gender} from "../../types/contact-types";
                   <button class="underline float-end text-white text-xl px-9" type="button" (click)="navigateToContacts()">Show My Contacts</button>
               </div>
           </div>
-      </div>
+          </div>
   `,
   styles: ``
 })

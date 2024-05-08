@@ -13,16 +13,16 @@
     @apply md:w-8/12 lg:w-10/12 xl:w-11/12 rounded-3xl h-10 py-6 px-8 my-2 mr-5 text-customBlue placeholder-customBlue
   }
   .genderInput{
-    @apply w-16 text-center m-2
+    @apply w-16 text-center m-2 bg-white
   }
   .nameInput{
-    @apply w-32 text-center m-2
+    @apply w-32 text-center m-2 bg-white
   }
   .emailInput{
-    @apply w-48 text-center m-2
+    @apply w-48 text-center m-2 bg-white
   }
   .numberInput{
-    @apply w-24 text-center m-2
+    @apply w-24 text-center m-2 bg-white
   }
 }
 
@@ -51,3 +51,5 @@
   bottom: 0;
   left: 0;
 }
+
+
