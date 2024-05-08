@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {ContactService} from "../../service/contact.service";
-import {StoreService} from "../../service/store.service";
-import {Gender} from "../../types/contact-types";
+import { ContactService } from "../../service/contact.service";
+import { StoreService } from "../../service/store.service";
+import { Gender } from "../../types/contact-types";
+import {ContactValidationUtil} from "../../util/contactValidationUtil";
 
 @Component({
   selector: 'app-add-contact',
   template: `
       <div class="flex justify-evenly items-center h-screen flex-col bg-fixed-cover p-20">
           <div>
-
               <app-logo [textColor]="'text-white'" [imageSize]="'w-10'" [textSize]="'text-3xl'"></app-logo>
 
               <h1 class="text-2xl text-white font-bold py-10">Add Your New Content Here</h1>
@@ -40,8 +40,6 @@ import {Gender} from "../../types/contact-types";
                   </div>
                   <button type="submit" class="custom-button w-3/5">Add Contact</button>
               </form>
-
-
           </div>
           <div class="self-end">
               <div class="float-end flex flex-row-reverse">
@@ -50,9 +48,9 @@ import {Gender} from "../../types/contact-types";
                   <button class="underline float-end text-white text-xl px-9" type="button" (click)="navigateToContacts()">Show My Contacts</button>
               </div>
           </div>
-          </div>
+      </div>
   `,
-  styles: ``
+  styles: []
 })
 export class AddContactComponent {
   fullName: string = '';
@@ -64,18 +62,23 @@ export class AddContactComponent {
     private router: Router,
     private contactService: ContactService,
     private storeService: StoreService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private contactValidationUtil: ContactValidationUtil
   ) { }
 
   handleAddContent(): void {
+    // Validate the inputs
+    const validationMessage = this.contactValidationUtil.validate(this.fullName, this.phoneNumber, this.email, this.gender);
+    if (validationMessage) {
+      // Show validation error using snackbar
+      this.snackBar.open(validationMessage, 'Close', {
+        duration: 3000
+      });
+      return;
+    }
+
+    // If validation passes, proceed to add contact
     const userId = this.storeService.getUserInfo();
-
-    console.log(userId)
-    console.log(this.fullName)
-    console.log(this.email)
-    console.log(this.phoneNumber)
-    console.log(this.gender)
-
 
     this.contactService.signup({
       user: userId!,
