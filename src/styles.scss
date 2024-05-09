@@ -52,4 +52,13 @@
   left: 0;
 }
 
+.cdk-overlay-container{
+  position: absolute;
+  color: white;
+  font-size: 20px;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+}
 
