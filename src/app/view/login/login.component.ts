@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.login({ userName: this.userName, userPassword: this.password })
-      .pipe(take(1))
       .subscribe(
         (response: userResponse) => {
           this.storeService.UserSignIn(response.userId);

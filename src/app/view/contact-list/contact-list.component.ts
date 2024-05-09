@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ContactValidationUtil } from "../../util/contactValidationUtil";
 
 
+
 @Component({
   selector: 'app-contact-list',
   template: `
@@ -74,7 +75,7 @@ import { ContactValidationUtil } from "../../util/contactValidationUtil";
       </div>
       <app-delete-popup
               *ngIf="showDeletePopup"
-              [message]="'Are you sure you want to delete this contact?'"
+              [message]="'Do you want to delete the contact of ' + deleteName "
               (onConfirm)="confirmDelete()"
               (onCancel)="cancelDelete()"
       ></app-delete-popup>
@@ -97,6 +98,8 @@ export class ContactListComponent implements OnInit {
   numberEdit: string = '';
   genderEdit: string = '';
 
+  deleteName:string='';
+
   showDeletePopup: boolean = false;
   contactToDelete!: ContactResponse;
 
@@ -114,7 +117,6 @@ export class ContactListComponent implements OnInit {
   loadContacts(): void {
     this.contactService.getContactList(this.storeService.getUserInfo()).subscribe((contacts) => {
       this.contacts = contacts;
-      // Check if contacts array is empty
       if (this.contacts.length === 0) {
         this.router.navigate(['app/welcome']);
       }
@@ -154,6 +156,7 @@ export class ContactListComponent implements OnInit {
   }
 
   handleDelete(contact: ContactResponse): void {
+    this.deleteName='" '+contact.name+' "'
     this.contactToDelete = contact;
     this.showDeletePopup = true;
   }

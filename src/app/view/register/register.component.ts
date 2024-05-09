@@ -4,6 +4,7 @@ import { StoreService } from "../../service/store.service";
 import { Router } from "@angular/router";
 import { UserValidationUtil } from "../../util/userValidationUtil";
 import { take } from "rxjs";
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 
 @Component({
   selector: 'app-register',
@@ -71,7 +72,8 @@ export class RegisterComponent implements OnInit {
     private userService: UserService,
     private storeService: StoreService,
     private router: Router,
-    private userValidationUtil: UserValidationUtil
+    private userValidationUtil: UserValidationUtil,
+    private snackBar: MatSnackBar // Inject MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -86,13 +88,15 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (this.userPassword !== this.confirmPassword) {
+      this.snackBar.open('Passwords do not match', 'Close', {
+        duration: 3000
+      });
       console.error('Passwords do not match');
       return;
     }
 
     this.isPending = true;
     this.userService.register({ userName: this.userName, userPassword: this.userPassword })
-      .pipe(take(1))
       .subscribe(
         (response: any) => {
           this.storeService.UserSignIn(response.userId);
@@ -103,7 +107,6 @@ export class RegisterComponent implements OnInit {
           console.error('Registration failed:', error);
         }
       )
-      .add(() => this.isPending = false);
   }
 
   navigateToLogin() {

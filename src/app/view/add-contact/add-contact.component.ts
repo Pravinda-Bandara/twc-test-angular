@@ -67,10 +67,8 @@ export class AddContactComponent {
   ) { }
 
   handleAddContent(): void {
-    // Validate the inputs
     const validationMessage = this.contactValidationUtil.validate(this.fullName, this.phoneNumber, this.email, this.gender);
     if (validationMessage) {
-      // Show validation error using snackbar
       this.snackBar.open(validationMessage, 'Close', {
         duration: 3000
       });
