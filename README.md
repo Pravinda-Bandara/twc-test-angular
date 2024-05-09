@@ -40,7 +40,7 @@ Welcome to our Contacts Management System, This system allows users to register 
   <img src="./src/assets/screenshots/addNewContact.png" alt="Screenshot" >
   <img src="./src/assets/screenshots/ContactList.png" alt="Screenshot" >
   <img src="./src/assets/screenshots/EditContact.png" alt="Screenshot" >
-  <img src="./src/assets/screenshots/DeleteConfirm.png" alt="Screenshot" >
+  <img src="./src/assets/screenshots/ConfirmDelete.png" alt="Screenshot" >
 
 
 </div>

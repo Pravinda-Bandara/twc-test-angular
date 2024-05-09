@@ -75,7 +75,7 @@ import { ErrorUtilService } from "../../util/error-util.service";
       </div>
       <app-delete-popup
               *ngIf="showDeletePopup"
-              [message]="'Do you want to delete the contact of ' + deleteName "
+              [message]="'Do you want to delete the contact ' + deleteName "
               (onConfirm)="confirmDelete()"
               (onCancel)="cancelDelete()"
       ></app-delete-popup>
@@ -159,6 +159,7 @@ export class ContactListComponent implements OnInit {
 
     this.contactService.updateContact(updatedContact).subscribe(
       () => {
+        this.snackbarService.showSnackbar('Contact save successfully');
         this.loadContacts();
         this.editRow = null;
       },
