@@ -4,7 +4,9 @@ import { StoreService } from "../../service/store.service";
 import { Router } from "@angular/router";
 import { UserValidationUtil } from "../../util/userValidationUtil";
 import { take } from "rxjs";
-import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {ShowSnackBarUtilService} from "../../util/show-snack-bar-util.service";
+import {ErrorUtilService} from "../../util/error-util.service"; // Import MatSnackBar
 
 @Component({
   selector: 'app-register',
@@ -73,7 +75,8 @@ export class RegisterComponent implements OnInit {
     private storeService: StoreService,
     private router: Router,
     private userValidationUtil: UserValidationUtil,
-    private snackBar: MatSnackBar // Inject MatSnackBar
+    private snackbarService: ShowSnackBarUtilService,
+    private errorUtil:ErrorUtilService
   ) {}
 
   ngOnInit() {
@@ -88,10 +91,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (this.userPassword !== this.confirmPassword) {
-      this.snackBar.open('Passwords do not match', 'Close', {
-        duration: 3000
-      });
-      console.error('Passwords do not match');
+      this.snackbarService.showSnackbar('Passwords dose not match');
       return;
     }
 
@@ -104,7 +104,8 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['app/welcome']);
         },
         (error) => {
-          console.error('Registration failed:', error);
+          let errorMessage = this.errorUtil.errorMessage(error);
+          this.snackbarService.showSnackbar(errorMessage);
         }
       )
   }

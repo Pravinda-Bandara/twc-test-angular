@@ -4,7 +4,10 @@ import { userResponse } from "../../types/user-types";
 import { StoreService } from "../../service/store.service";
 import { Router } from "@angular/router";
 import { UserValidationUtil } from "../../util/userValidationUtil";
-import { take } from "rxjs";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+import {ShowSnackBarUtilService} from "../../util/show-snack-bar-util.service";
+import {ErrorUtilService} from "../../util/error-util.service"; // Import HttpErrorResponse
 
 @Component({
   selector: 'app-login',
@@ -19,8 +22,8 @@ import { take } from "rxjs";
                   <div>
                       <input type="text"
                              placeholder="Enter user Name"
-                      [(ngModel)]="userName"
-                      name="userName" class="custom-input">
+                             [(ngModel)]="userName"
+                             name="userName" class="custom-input">
 
                   </div>
                   <div>
@@ -48,7 +51,6 @@ import { take } from "rxjs";
       </div>
   `,
   styles: [
-    // Add Tailwind CSS styles here
   ]
 })
 export class LoginComponent implements OnInit {
@@ -56,7 +58,10 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private storeService: StoreService,
     private router: Router,
-    private userValidationUtil: UserValidationUtil
+    private userValidationUtil: UserValidationUtil,
+    private snackbarService: ShowSnackBarUtilService,
+    private errorUtil:ErrorUtilService
+
   ) {}
 
   ngOnInit() {
@@ -70,7 +75,6 @@ export class LoginComponent implements OnInit {
   password: string = '';
 
   onLogin() {
-    console.log(this.userName,this.password)
     if (!this.userValidationUtil.validate(this.userName, this.password)) {
       return;
     }
@@ -82,8 +86,9 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userInfo', JSON.stringify(response.userId));
           this.router.navigate(['app/contacts']);
         },
-        (error) => {
-          console.error('Login failed:', error);
+        (error: HttpErrorResponse) => {
+          let errorMessage = this.errorUtil.errorMessage(error);
+          this.snackbarService.showSnackbar(errorMessage);
         }
       );
   }
@@ -91,4 +96,5 @@ export class LoginComponent implements OnInit {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+
 }

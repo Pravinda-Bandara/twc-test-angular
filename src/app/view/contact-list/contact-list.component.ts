@@ -4,8 +4,8 @@ import { ContactService } from "../../service/contact.service";
 import { StoreService } from "../../service/store.service";
 import { Router } from '@angular/router';
 import { ContactValidationUtil } from "../../util/contactValidationUtil";
-
-
+import { ShowSnackBarUtilService } from "../../util/show-snack-bar-util.service";
+import { ErrorUtilService } from "../../util/error-util.service";
 
 @Component({
   selector: 'app-contact-list',
@@ -98,7 +98,7 @@ export class ContactListComponent implements OnInit {
   numberEdit: string = '';
   genderEdit: string = '';
 
-  deleteName:string='';
+  deleteName: string = '';
 
   showDeletePopup: boolean = false;
   contactToDelete!: ContactResponse;
@@ -107,7 +107,9 @@ export class ContactListComponent implements OnInit {
     private contactService: ContactService,
     private storeService: StoreService,
     private router: Router,
-    private contactValidationUtil: ContactValidationUtil
+    private contactValidationUtil: ContactValidationUtil,
+    private snackbarService: ShowSnackBarUtilService,
+    private errorUtil: ErrorUtilService // Inject ErrorUtilService
   ) {}
 
   ngOnInit(): void {
@@ -115,12 +117,18 @@ export class ContactListComponent implements OnInit {
   }
 
   loadContacts(): void {
-    this.contactService.getContactList(this.storeService.getUserInfo()).subscribe((contacts) => {
-      this.contacts = contacts;
-      if (this.contacts.length === 0) {
-        this.router.navigate(['app/welcome']);
+    this.contactService.getContactList(this.storeService.getUserInfo()).subscribe(
+      (contacts) => {
+        this.contacts = contacts;
+        if (this.contacts.length === 0) {
+          this.router.navigate(['app/welcome']);
+        }
+      },
+      (error) => {
+        const errorMessage = this.errorUtil.errorMessage(error);
+        this.snackbarService.showSnackbar(errorMessage);
       }
-    });
+    );
   }
 
   getProfilePicture(gender: string): string {
@@ -149,23 +157,35 @@ export class ContactListComponent implements OnInit {
       number: this.numberEdit
     };
 
-    this.contactService.updateContact(updatedContact).subscribe(() => {
-      this.loadContacts();
-      this.editRow = null;
-    });
+    this.contactService.updateContact(updatedContact).subscribe(
+      () => {
+        this.loadContacts();
+        this.editRow = null;
+      },
+      (error) => {
+        const errorMessage = this.errorUtil.errorMessage(error);
+        this.snackbarService.showSnackbar(errorMessage);
+      }
+    );
   }
 
   handleDelete(contact: ContactResponse): void {
-    this.deleteName='" '+contact.name+' "'
+    this.deleteName = '" ' + contact.name + ' "';
     this.contactToDelete = contact;
     this.showDeletePopup = true;
   }
 
   confirmDelete(): void {
-    this.contactService.deleteContact(this.contactToDelete._id).subscribe(() => {
-      this.loadContacts();
-      this.showDeletePopup = false;
-    });
+    this.contactService.deleteContact(this.contactToDelete._id).subscribe(
+      () => {
+        this.loadContacts();
+        this.showDeletePopup = false;
+      },
+      (error) => {
+        const errorMessage = this.errorUtil.errorMessage(error);
+        this.snackbarService.showSnackbar(errorMessage);
+      }
+    );
   }
 
   cancelDelete(): void {
@@ -179,7 +199,6 @@ export class ContactListComponent implements OnInit {
   }
 
   navigateToAddContact(): void {
-    // Navigate to the add contact page
     this.router.navigate(['app/addcontact']);
   }
 }

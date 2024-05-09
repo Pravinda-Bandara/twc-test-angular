@@ -6,6 +6,8 @@ import { ContactService } from "../../service/contact.service";
 import { StoreService } from "../../service/store.service";
 import { Gender } from "../../types/contact-types";
 import {ContactValidationUtil} from "../../util/contactValidationUtil";
+import {ShowSnackBarUtilService} from "../../util/show-snack-bar-util.service";
+import {ErrorUtilService} from "../../util/error-util.service";
 
 @Component({
   selector: 'app-add-contact',
@@ -62,16 +64,13 @@ export class AddContactComponent {
     private router: Router,
     private contactService: ContactService,
     private storeService: StoreService,
-    private snackBar: MatSnackBar,
-    private contactValidationUtil: ContactValidationUtil
+    private contactValidationUtil: ContactValidationUtil,
+    private snackbarService: ShowSnackBarUtilService,
   ) { }
 
   handleAddContent(): void {
     const validationMessage = this.contactValidationUtil.validate(this.fullName, this.phoneNumber, this.email, this.gender);
     if (validationMessage) {
-      this.snackBar.open(validationMessage, 'Close', {
-        duration: 3000
-      });
       return;
     }
 
@@ -86,15 +85,11 @@ export class AddContactComponent {
       gender: this.gender as Gender
     }).subscribe(
       () => {
-        this.snackBar.open('Contact added successfully', 'Close', {
-          duration: 3000
-        });
+        this.snackbarService.showSnackbar('Contact added successfully');
         this.clearForm();
       },
-      () => {
-        this.snackBar.open('Failed to add contact. Please try again later.', 'Close', {
-          duration: 3000
-        });
+      (error) => {
+        this.snackbarService.showSnackbar(error);
       }
     );
   }
