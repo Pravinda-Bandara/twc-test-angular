@@ -13,7 +13,7 @@ import {ErrorUtilService} from "../../util/error-util.service"; // Import HttpEr
   selector: 'app-login',
   template: `
       <div class="flex justify-evenly items-center h-screen bg-fixed-cover-2">
-          <div class="p-10">
+          <div class="">
               <h1 class="text-6xl font-bold text-white mb-4">Hi there,</h1>
               <p class="text-white text-2xl mb-10">
                   Welcome to our <br /> contacts portal
@@ -32,10 +32,10 @@ import {ErrorUtilService} from "../../util/error-util.service"; // Import HttpEr
                              [(ngModel)]="password"
                              name="userPassword" class="custom-input">
                   </div>
-                  <button (click)="onLogin()" class="custom-button w-1/4">Login</button>
+                  <button (click)="onLogin()" class="custom-button w-3/12 p-2">Login</button>
                   <span class="text-white mx-5"> or </span>
                   <button
-                          class="underline text-white text-sm mr-7"
+                          class="underline text-white text-sm"
                           type="button"
                           (click)="navigateToRegister()"
                   >

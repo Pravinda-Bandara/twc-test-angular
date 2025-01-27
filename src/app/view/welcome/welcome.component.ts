@@ -16,7 +16,7 @@ import {StoreService} from "../../service/store.service";
           </div>
           <div class="self-end flex mr-10">
               <i class="bi bi-box-arrow-left text-2xl text-white"></i>
-              <button class="underline text-lg float-end text-white mx-2 text-xl mb-10" type="button" (click)="handleLogOut()">LogOut</button>
+              <button class="underline text-lg float-end text-white mx-2 text-xl mb-10" type="button" (click)="handleLogOut()">Logout</button>
           </div>
       </div>
   `,

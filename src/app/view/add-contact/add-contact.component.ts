@@ -45,7 +45,7 @@ import {ErrorUtilService} from "../../util/error-util.service";
           </div>
           <div class="self-end">
               <div class="float-end flex flex-row-reverse">
-                  <button class="underline text-white mx-2 text-xl" type="button" (click)="handleLogOut()">LogOut</button>
+                  <button class="underline text-white mx-2 text-xl" type="button" (click)="handleLogOut()">Logout</button>
                   <i class="bi bi-box-arrow-left text-2xl text-white"></i>
                   <button class="underline float-end text-white text-xl px-9" type="button" (click)="navigateToContacts()">Show My Contacts</button>
               </div>
