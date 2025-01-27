@@ -55,7 +55,6 @@ const routes: Routes = [
     component: MainComponent,
     children: appRoutes,
     canActivate: [authGuard]
-
   },
 
 ];
